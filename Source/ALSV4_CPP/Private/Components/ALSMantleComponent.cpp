@@ -71,7 +71,7 @@ void UALSMantleComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 void UALSMantleComponent::MantleStart(float MantleHeight, const FALSComponentAndTransform& MantleLedgeWS,
                                       EALSMantleType MantleType)
 {
-	if (!OwnerCharacter)
+	if (OwnerCharacter == nullptr || !IsValid(MantleLedgeWS.Component) || !IsValid(MantleTimeline))
 	{
 		return;
 	}
@@ -85,7 +85,8 @@ void UALSMantleComponent::MantleStart(float MantleHeight, const FALSComponentAnd
 	SetComponentTickEnabledAsync(false);
 
 	// Step 1: Get the Mantle Asset and use it to set the new Mantle Params.
-	const FALSMantleAsset& MantleAsset = GetMantleAsset(MantleType, OwnerCharacter->GetOverlayState());
+	const FALSMantleAsset MantleAsset = GetMantleAsset(MantleType, OwnerCharacter->GetOverlayState());
+	check(MantleAsset.PositionCorrectionCurve)
 
 	MantleParams.AnimMontage = MantleAsset.AnimMontage;
 	MantleParams.PositionCorrectionCurve = MantleAsset.PositionCorrectionCurve;
@@ -165,7 +166,7 @@ bool UALSMantleComponent::MantleCheck(const FALSMantleTraceSettings& TraceSettin
 	Params.AddIgnoredActor(OwnerCharacter);
 
 	FHitResult HitResult;
-	World->SweepSingleByProfile(HitResult, TraceStart, TraceEnd, FQuat::Identity, FName(TEXT("IgnoreOnlyPawn")),
+	World->SweepSingleByProfile(HitResult, TraceStart, TraceEnd, FQuat::Identity, MantleObjectDetectionProfile,
 	                            FCollisionShape::MakeCapsule(TraceSettings.ForwardTraceRadius, HalfHeight), Params);
 
 	if (!HitResult.IsValidBlockingHit() || OwnerCharacter->GetCharacterMovement()->IsWalkable(HitResult))
@@ -195,7 +196,7 @@ bool UALSMantleComponent::MantleCheck(const FALSMantleTraceSettings& TraceSettin
 	DownwardTraceStart.Z += TraceSettings.MaxLedgeHeight + TraceSettings.DownwardTraceRadius + 1.0f;
 
 	World->SweepSingleByChannel(HitResult, DownwardTraceStart, DownwardTraceEnd, FQuat::Identity,
-	                            ECC_GameTraceChannel2, FCollisionShape::MakeSphere(TraceSettings.DownwardTraceRadius),
+	                            WalkableSurfaceDetectionChannel, FCollisionShape::MakeSphere(TraceSettings.DownwardTraceRadius),
 	                            Params);
 
 
@@ -366,7 +367,6 @@ void UALSMantleComponent::OnOwnerJumpInput()
 		}
 		else if (OwnerCharacter->GetMovementState() == EALSMovementState::InAir)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("A"));
 			MantleCheck(FallingTraceSettings);
 		}
 	}

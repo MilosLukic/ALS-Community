@@ -3,6 +3,10 @@
 
 Replicated and optimized community version of [Advanced Locomotion System V4](https://www.unrealengine.com/marketplace/en-US/product/advanced-locomotion-system-v1) for **Unreal Engine 4.26** with additional bug fixes.
 
+<p align="center">
+  <a href="https://discord.gg/wYYMHFu"><img src="https://i.imgur.com/LP9bZQj.png"></a>
+</p>
+
 ## Supported Platforms
 - Windows
 - Linux
@@ -16,6 +20,7 @@ Replicated and optimized community version of [Advanced Locomotion System V4](ht
 - Plugin structure
 - Highly optimized for production
 - Mantling and debugging features are implemented as a separate plug-in/plug-out type actor component to reduce total overhead on base character class
+- Improved footstep behavior with Niagara particle & decal support.
 - Lots of bug fixes additional to marketplace version
 
 ## Known Issues & Discussion

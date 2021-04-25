@@ -25,6 +25,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
+	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
+
 	/** Implemented on BP to update layering colors */
 	UFUNCTION(BlueprintImplementableEvent, Category = "ALS|Debug")
 	void UpdateColoringSystem();
@@ -41,7 +43,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "ALS|Debug")
 	void SetDynamicMaterials();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
 	void ToggleGlobalTimeDilationLocal(float TimeDilation);
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
@@ -52,6 +54,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
 	void ToggleDebugView();
+
+	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
+	void ToggleDebugMesh();
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
 	void ToggleTraces() { bShowTraces = !bShowTraces; }
@@ -69,13 +74,13 @@ public:
 	bool GetDebugView() { return bDebugView; }
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
-    bool GetShowTraces() { return bShowTraces; }
+	bool GetShowTraces() { return bShowTraces; }
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
-    bool GetShowDebugShapes() { return bShowDebugShapes; }
+	bool GetShowDebugShapes() { return bShowDebugShapes; }
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Debug")
-    bool GetShowLayerColors() { return bShowLayerColors; }
+	bool GetShowLayerColors() { return bShowLayerColors; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -93,6 +98,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ALS|Debug")
 	bool bShowCharacterInfo = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ALS|Debug")
+	USkeletalMesh* DebugSkeletalMesh = nullptr;
+
 	static bool bDebugView;
 
 	static bool bShowTraces;
@@ -103,4 +111,9 @@ public:
 
 private:
 	bool bNeedsColorReset = false;
+
+	bool bDebugMeshVisible = false;
+
+	UPROPERTY()
+	USkeletalMesh* DefaultSkeletalMesh = nullptr;
 };
