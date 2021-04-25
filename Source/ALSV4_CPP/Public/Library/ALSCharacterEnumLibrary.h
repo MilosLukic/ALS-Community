@@ -166,3 +166,10 @@ enum class EALSMovementDirection : uint8
 	Left,
 	Backward
 };
+
+UENUM(BlueprintType)
+enum class EALSSpawnType : uint8
+{
+	Location,
+	Attached
+};
