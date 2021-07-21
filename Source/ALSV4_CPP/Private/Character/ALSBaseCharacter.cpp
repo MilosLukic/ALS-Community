@@ -730,16 +730,10 @@ void AALSBaseCharacter::RagdollUpdate(float DeltaTime)
 
 void AALSBaseCharacter::SetActorLocationDuringRagdoll(float DeltaTime)
 {
-	if (IsLocallyControlled())
-	{
-		// Set the pelvis as the target location.
-		TargetRagdollLocation = GetMesh()->GetSocketLocation(NAME_Pelvis);
-		if (!HasAuthority())
-		{
-			Server_SetMeshLocationDuringRagdoll(TargetRagdollLocation);
-		}
-	}
+	// Set the pelvis as the target location.
+	bool IsDedicated = UKismetSystemLibrary::IsDedicatedServer(GetWorld());
 
+	TargetRagdollLocation = GetMesh()->GetSocketLocation(NAME_Pelvis);
 	// Determine wether the ragdoll is facing up or down and set the target rotation accordingly.
 	const FRotator PelvisRot = GetMesh()->GetSocketRotation(NAME_Pelvis);
 
@@ -789,15 +783,7 @@ void AALSBaseCharacter::SetActorLocationDuringRagdoll(float DeltaTime)
 		const float ImpactDistZ = FMath::Abs(HitResult.ImpactPoint.Z - HitResult.TraceStart.Z);
 		NewRagdollLoc.Z += GetCapsuleComponent()->GetScaledCapsuleHalfHeight() - ImpactDistZ + 2.0f;
 	}
-	if (!IsLocallyControlled())
-	{
-		ServerRagdollPull = FMath::FInterpTo(ServerRagdollPull, 750, DeltaTime, 0.6);
-		float RagdollSpeed = FVector(LastRagdollVelocity.X, LastRagdollVelocity.Y, 0).Size();
-		FName RagdollSocketPullName = RagdollSpeed > 300 ? NAME_spine_03 : NAME_pelvis;
-		GetMesh()->AddForce(
-			(TargetRagdollLocation - GetMesh()->GetSocketLocation(RagdollSocketPullName)) * ServerRagdollPull,
-			RagdollSocketPullName, true);
-	}
+
 	SetActorLocationAndTargetRotation(bRagdollOnGround ? NewRagdollLoc : TargetRagdollLocation, TargetRagdollRotation);
 }
 
