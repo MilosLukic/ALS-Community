@@ -732,8 +732,15 @@ void AALSBaseCharacter::SetActorLocationDuringRagdoll(float DeltaTime)
 {
 	// Set the pelvis as the target location.
 	bool IsDedicated = UKismetSystemLibrary::IsDedicatedServer(GetWorld());
+	if (!IsDedicated) {
+		TargetRagdollLocation = GetMesh()->GetSocketLocation(NAME_Pelvis);
+	}
 
-	TargetRagdollLocation = GetMesh()->GetSocketLocation(NAME_Pelvis);
+	if (!HasAuthority())
+	{
+		// Server_SetMeshLocationDuringRagdoll(TargetRagdollLocation);
+	}
+	
 	// Determine wether the ragdoll is facing up or down and set the target rotation accordingly.
 	const FRotator PelvisRot = GetMesh()->GetSocketRotation(NAME_Pelvis);
 
