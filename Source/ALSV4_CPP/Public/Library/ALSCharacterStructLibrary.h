@@ -84,6 +84,9 @@ struct FALSCameraStateSettings
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	FALSCameraGaitSettings Aiming;
+
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	FALSCameraGaitSettings Combat;
 };
 
 USTRUCT(BlueprintType)
@@ -222,6 +225,9 @@ struct FALSMovementStateSettings : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, Category = "Movement Settings")
 	FALSMovementStanceSettings Aiming;
+
+	UPROPERTY(EditAnywhere, Category = "Movement Settings")
+	FALSMovementStanceSettings Combat;
 };
 
 USTRUCT(BlueprintType)

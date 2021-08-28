@@ -116,6 +116,9 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Rotation System")
 	bool Aiming_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Rotation System")
+	bool Combat_ = false;
+
 public:
 	FALSRotationMode()
 	{
@@ -126,6 +129,7 @@ public:
 	const bool& VelocityDirection() const { return VelocityDirection_; }
 	const bool& LookingDirection() const { return LookingDirection_; }
 	const bool& Aiming() const { return Aiming_; }
+	const bool& Combat() const { return Combat_; }
 
 	operator EALSRotationMode() const { return RotationMode; }
 
@@ -135,6 +139,7 @@ public:
 		VelocityDirection_ = RotationMode == EALSRotationMode::VelocityDirection;
 		LookingDirection_ = RotationMode == EALSRotationMode::LookingDirection;
 		Aiming_ = RotationMode == EALSRotationMode::Aiming;
+		Combat_ = RotationMode == EALSRotationMode::Combat;
 	}
 };
 
@@ -210,6 +215,8 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Movement System")
 	bool GettingUp_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Movement System")
+	bool Attacking_ = false;
 public:
 	FALSMovementAction()
 	{
@@ -222,6 +229,7 @@ public:
 	const bool& HighMantle() const { return HighMantle_; }
 	const bool& Rolling() const { return Rolling_; }
 	const bool& GettingUp() const { return GettingUp_; }
+	const bool& Attacking() const { return Attacking_; }
 
 	operator EALSMovementAction() const { return Action; }
 
@@ -233,6 +241,7 @@ public:
 		HighMantle_ = Action == EALSMovementAction::HighMantle;
 		Rolling_ = Action == EALSMovementAction::Rolling;
 		GettingUp_ = Action == EALSMovementAction::GettingUp;
+		Attacking_ = Action == EALSMovementAction::Attacking;
 	}
 };
 
@@ -324,9 +333,14 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
 	bool Barrel_ = false;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
 	bool Musket_ = false;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
+	bool Axe_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
+	bool Sword_ = false;
 public:
 	FALSOverlayState()
 	{
@@ -348,6 +362,8 @@ public:
 	const bool& Box() const { return Box_; }
 	const bool& Barrel() const { return Barrel_; }
 	const bool& Musket() const { return Musket_; }
+	const bool& Sword() const { return Sword_; }
+	const bool& Axe() const { return Axe_; }
 
 	operator EALSOverlayState() const { return State; }
 
@@ -368,6 +384,8 @@ public:
 		Box_ = State == EALSOverlayState::Box;
 		Barrel_ = State == EALSOverlayState::Barrel;
 		Musket_ = State == EALSOverlayState::Musket;
+		Axe_ = State == EALSOverlayState::Axe;
+		Sword_ = State == EALSOverlayState::Sword;
 	}
 };
 

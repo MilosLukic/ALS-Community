@@ -33,7 +33,7 @@ enum class EALSGait : uint8
 {
 	Walking,
 	Running,
-	Sprinting
+	Sprinting,
 };
 
 /**
@@ -46,7 +46,8 @@ enum class EALSMovementAction : uint8
 	LowMantle,
 	HighMantle,
 	Rolling,
-	GettingUp
+	GettingUp,
+	Attacking,
 };
 
 /**
@@ -59,7 +60,7 @@ enum class EALSMovementState : uint8
 	Grounded,
 	InAir,
 	Mantling,
-	Ragdoll
+	Ragdoll,
 };
 
 /**
@@ -82,6 +83,8 @@ enum class EALSOverlayState : uint8
 	Box,
 	Barrel,
 	Musket,
+	Sword,
+	Axe,
 };
 
 /**
@@ -92,7 +95,8 @@ enum class EALSRotationMode : uint8
 {
 	VelocityDirection,
 	LookingDirection,
-	Aiming
+	Aiming,
+	Combat
 };
 
 /**

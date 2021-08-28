@@ -15,6 +15,7 @@
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Perception/AISense_Hearing.h"
 
 
 const FName NAME_Mask_FootstepSound(TEXT("Mask_FootstepSound"));
@@ -163,6 +164,18 @@ void UALSAnimNotifyFootstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 					                                                    HitFX->DecalAttachmentType,
 					                                                    HitFX->DecalLifeSpan);
 					break;
+				}
+			}
+			if (MeshOwner->HasAuthority())
+			{
+				APawn* Pawn = Cast<APawn>(MeshOwner);
+				if (Pawn)
+				{
+					if (Pawn->GetController())
+					{
+						UAISense_Hearing::ReportNoiseEvent(Pawn->GetWorld(), Pawn->GetActorLocation(), 1.0, Pawn->GetController(), 0.0);
+
+					}
 				}
 			}
 		}

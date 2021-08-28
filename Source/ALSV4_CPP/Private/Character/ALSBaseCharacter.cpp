@@ -577,7 +577,17 @@ FALSMovementSettings AALSBaseCharacter::GetTargetMovementSettings() const
 			return MovementData.Aiming.Crouching;
 		}
 	}
-
+	else if (RotationMode == EALSRotationMode::Combat)
+	{
+		if (Stance == EALSStance::Standing)
+		{
+			return MovementData.Aiming.Standing;
+		}
+		if (Stance == EALSStance::Crouching)
+		{
+			return MovementData.Aiming.Crouching;
+		}
+	}
 	// Default to velocity dir standing
 	return MovementData.VelocityDirection.Standing;
 }
@@ -595,7 +605,7 @@ bool AALSBaseCharacter::CanSprint() const
 
 	const bool bValidInputAmount = MovementInputAmount > 0.9f;
 
-	if (RotationMode == EALSRotationMode::VelocityDirection)
+	if (RotationMode == EALSRotationMode::VelocityDirection || RotationMode == EALSRotationMode::Combat)
 	{
 		return bValidInputAmount;
 	}
@@ -1107,7 +1117,7 @@ void AALSBaseCharacter::UpdateGroundedRotation(float DeltaTime)
 				}
 				SmoothCharacterRotation({0.0f, YawValue, 0.0f}, 500.0f, GroundedRotationRate, DeltaTime);
 			}
-			else if (RotationMode == EALSRotationMode::Aiming)
+			else if (RotationMode == EALSRotationMode::Aiming || RotationMode == EALSRotationMode::Combat)
 			{
 				const float ControlYaw = AimingRotation.Yaw;
 				SmoothCharacterRotation({0.0f, ControlYaw, 0.0f}, 1000.0f, 20.0f, DeltaTime);
@@ -1117,8 +1127,8 @@ void AALSBaseCharacter::UpdateGroundedRotation(float DeltaTime)
 		{
 			// Not Moving
 
-			if ((ViewMode == EALSViewMode::ThirdPerson && RotationMode == EALSRotationMode::Aiming) ||
-				ViewMode == EALSViewMode::FirstPerson)
+			if ((ViewMode == EALSViewMode::ThirdPerson && (RotationMode == EALSRotationMode::Aiming || RotationMode == EALSRotationMode::Combat)) ||
+				ViewMode == EALSViewMode::FirstPerson )
 			{
 				LimitRotation(-100.0f, 100.0f, 20.0f, DeltaTime);
 			}
@@ -1164,7 +1174,7 @@ void AALSBaseCharacter::UpdateInAirRotation(float DeltaTime)
 		// Velocity / Looking Direction Rotation
 		SmoothCharacterRotation({0.0f, InAirRotation.Yaw, 0.0f}, 0.0f, 5.0f, DeltaTime);
 	}
-	else if (RotationMode == EALSRotationMode::Aiming)
+	else if (RotationMode == EALSRotationMode::Aiming || RotationMode == EALSRotationMode::Combat)
 	{
 		// Aiming Rotation
 		SmoothCharacterRotation({0.0f, AimingRotation.Yaw, 0.0f}, 0.0f, 15.0f, DeltaTime);
