@@ -64,7 +64,7 @@ void AALSPlayerCameraManager::OnPossess(AALSBaseCharacter* NewCharacter)
 	SetActorLocation(TPSLoc);
 	SmoothedPivotTarget.SetLocation(TPSLoc);
 
-	DebugComponent = ControlledCharacter->FindComponentByClass<UALSDebugComponent>();
+	ALSDebugComponent = ControlledCharacter->FindComponentByClass<UALSDebugComponent>();
 }
 
 float AALSPlayerCameraManager::GetCameraBehaviorParam(FName CurveName) const
@@ -87,11 +87,22 @@ void AALSPlayerCameraManager::UpdateViewTargetInternal(FTViewTarget& OutVT, floa
 		FRotator OutRotation;
 		float OutFOV;
 
-		if (CustomCameraBehavior(DeltaTime, OutLocation, OutRotation, OutFOV))
+		if (OutVT.Target->IsA<AALSBaseCharacter>())
 		{
-			OutVT.POV.Location = OutLocation;
-			OutVT.POV.Rotation = OutRotation;
-			OutVT.POV.FOV = OutFOV;
+			if (CustomCameraBehavior(DeltaTime, OutLocation, OutRotation, OutFOV))
+			{
+				OutVT.POV.Location = OutLocation;
+				OutVT.POV.Rotation = OutRotation;
+				OutVT.POV.FOV = OutFOV;
+			}
+			else
+			{
+				OutVT.Target->CalcCamera(DeltaTime, OutVT.POV);
+			}
+		}
+		else
+		{
+			OutVT.Target->CalcCamera(DeltaTime, OutVT.POV);
 		}
 	}
 }
@@ -191,7 +202,7 @@ bool AALSPlayerCameraManager::CustomCameraBehavior(float DeltaTime, FVector& Loc
 	const bool bHit = World->SweepSingleByChannel(HitResult, TraceOrigin, TargetCameraLocation, FQuat::Identity,
 	                                              TraceChannel, SphereCollisionShape, Params);
 
-	if (DebugComponent && DebugComponent->GetShowTraces())
+	if (ALSDebugComponent && ALSDebugComponent->GetShowTraces())
 	{
 		UALSDebugComponent::DrawDebugSphereTraceSingle(World,
 		                                               TraceOrigin,

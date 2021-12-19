@@ -113,5 +113,6 @@ private:
 	UPROPERTY()
 	AALSBaseCharacter* OwnerCharacter;
 
-	UALSDebugComponent* DebugComponent = nullptr;
+	UPROPERTY()
+	UALSDebugComponent* ALSDebugComponent = nullptr;
 };

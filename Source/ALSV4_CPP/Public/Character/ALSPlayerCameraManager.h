@@ -77,5 +77,6 @@ protected:
 	FVector DebugViewOffset;
 
 private:
-	UALSDebugComponent* DebugComponent = nullptr;
+	UPROPERTY()
+	UALSDebugComponent* ALSDebugComponent = nullptr;
 };
