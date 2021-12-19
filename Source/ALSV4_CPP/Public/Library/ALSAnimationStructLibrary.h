@@ -134,6 +134,24 @@ struct FALSAnimCharacterInformation
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
 	EALSViewMode ViewMode = EALSViewMode::ThirdPerson;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	bool bIsAICharacter = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	bool bIsCharacterVisible = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	bool bIsWeaponCollidingWithWall = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	float SpineRotationAlpha = 0.0f;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	bool bDistanceQualityDrop = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ALS|Character Information")
+	bool bIsDead = false;
 };
 
 USTRUCT(BlueprintType)

@@ -100,7 +100,7 @@ public:
 		return CharacterInformation;
 	}
 
-private:
+protected:
 	void PlayDynamicTransitionDelay();
 
 	void OnJumpedDelay();
@@ -174,7 +174,6 @@ private:
 
 	float GetAnimCurveClamped(const FName& Name, float Bias, float ClampMin, float ClampMax) const;
 
-protected:
 	/** References */
 	UPROPERTY(BlueprintReadOnly, Category = "Read Only Data|Character Information")
 	AALSBaseCharacter* Character = nullptr;
@@ -311,7 +310,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration|Anim Graph - Foot IK")
 	FName IkFootR_BoneName = NAME_ik_foot_r;
 
-private:
+protected:
 	FTimerHandle OnPivotTimer;
 
 	FTimerHandle PlayDynamicTransitionTimer;
