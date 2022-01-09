@@ -171,11 +171,7 @@ void UALSAnimNotifyFootstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 				APawn* Pawn = Cast<APawn>(MeshOwner);
 				if (Pawn)
 				{
-					if (Pawn->GetController())
-					{
-						UAISense_Hearing::ReportNoiseEvent(Pawn->GetWorld(), Pawn->GetActorLocation(), 1.0, Pawn->GetController(), 0.0);
-
-					}
+					UAISense_Hearing::ReportNoiseEvent(Pawn->GetWorld(), Pawn->GetActorLocation(), 1.0, Pawn, 0.0);
 				}
 			}
 		}
